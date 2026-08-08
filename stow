@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+
+if [[ -z $STOW_FOLDERS ]]; then
+  echo "STOW_FOLDERS is not set"
+  STOW_FOLDERS="tmux,nvim" # add more folders separated by comma
+fi
+
+if [[ -z $DEV_DOTFILES ]]; then
+    echo "DEV_DOTFILES is not set"
+    DEV_DOTFILES=$HOME/.dev
+fi
+
+STOW_FOLDERS=$STOW_FOLDERS DEV_DOTFILES=$DEV_DOTFILES $DEV_DOTFILES/install
