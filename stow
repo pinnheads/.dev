@@ -2,7 +2,7 @@
 
 if [[ -z $STOW_FOLDERS ]]; then
   echo "STOW_FOLDERS is not set"
-  STOW_FOLDERS="tmux,nvim,zsh" # add more folders separated by comma
+  STOW_FOLDERS="tmux,nvim,zsh,bin" # add more folders separated by comma
 fi
 
 if [[ -z $DEV_DOTFILES ]]; then
