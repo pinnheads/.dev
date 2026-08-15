@@ -3,6 +3,10 @@
 pushd $DEV_DOTFILES
 for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g")
 do
+    echo "🧰 Create a backup of exsiting folder if present..."
+    for conflict in $(stow -n $folder 2>&1 | grep "existing target" | sed 's/.*existing target //; s/ since.*//'); do
+        mv "$HOME/$conflict" "$HOME/$conflict.bak"
+    done
     echo "stow $folder"
     stow -D $folder
     stow $folder
