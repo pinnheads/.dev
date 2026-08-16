@@ -118,22 +118,22 @@ return {
       --  See `:help lsp-config` for information about keys and how to configure
       ---@type table<string, vim.lsp.Config>
       local servers = {
-        -- Used to lint Python code
+        -- Used to lint and format Python code
         ruff = {},
+        -- Provides hover, goto-definition, and type-aware completion for Python
+        -- (ruff alone only gives diagnostics/formatting, not full intellisense)
+        pyright = {},
+
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         ts_ls = {},
+        -- ts_ls doesn't lint; eslint fills that gap for js/ts
+        eslint = {},
 
-        -- Used to lint and format Lua code
-        stylua = {
-            indent_lines = true,
-            format_on_save = true,
-            indent_type = 'spaces',
-            indent_size = 2,
-            column_width = 120,
-        },
+        -- Astro's own language server (handles .astro files, including embedded TS)
+        astro = {},
 
         -- Used to lint and format ansible code
         ansiblels = {
@@ -149,7 +149,10 @@ return {
         marksman = {},
 
         -- Used to lint and format bash scripts and zsh scripts
-        bashls = {},
+        -- (default filetypes is just {'sh'}; zsh files use filetype 'zsh', so it's added explicitly)
+        bashls = {
+          filetypes = { 'sh', 'bash', 'zsh' },
+        },
 
         -- Special Lua Config, as recommended by neovim help docs
         lua_ls = {
@@ -195,7 +198,12 @@ return {
       -- You can press `g?` for help in this menu.
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
-        -- You can add other tools here that you want Mason to install
+        -- Formatters/linters that aren't LSP servers, used by conform.nvim and nvim-lint
+        'stylua',
+        'shfmt',
+        'shellcheck',
+        'prettier',
+        'markdownlint',
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
