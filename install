@@ -1,11 +1,29 @@
 #!/usr/bin/env zsh
 
+# Find the deepest directory a stow package would collapse into a single
+# symlink: follow single-child directory chains until hitting a branch
+# or a plain file, and stop at the last directory in the chain.
+fold_root() {
+    local path=$1
+    local -a children
+    while [[ -d "$path" ]]; do
+        children=("$path"/*(DN))
+        (( ${#children[@]} == 1 )) || break
+        [[ -d "${children[1]}" ]] || break
+        path=${children[1]}
+    done
+    echo "$path"
+}
+
 pushd $DEV_DOTFILES
 for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g")
 do
     echo "🧰 Create a backup of exsiting folder if present..."
-    for conflict in $(stow -n $folder 2>&1 | grep "existing target" | sed 's/.*existing target //; s/ since.*//'); do
-        mv "$HOME/$conflict" "$HOME/$conflict.bak"
+    for entry in "$folder"/*(DN); do
+        target=${$(fold_root "$entry")#$folder/}
+        if [[ -e "$HOME/$target" && ! -L "$HOME/$target" ]]; then
+            mv "$HOME/$target" "$HOME/$target.bak"
+        fi
     done
     echo "stow $folder"
     stow -D $folder
