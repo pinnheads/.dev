@@ -2,8 +2,8 @@
 
 ### Neovim
 
-- [ ] ⚠️ Fix and testing needed for the neovim config related to default lsp installation and detection of workspaces with the root dir
-- [ ] Put cmdline as a floating window like lazyvim installation
+- [ ] ⚠️ Fix and testing needed for the neovim config related to default lsp installation and detection of workspaces with the root dir #medium
+- [ ] Put cmdline as a floating window like lazyvim installation #low
 
 ### Tmux
 
