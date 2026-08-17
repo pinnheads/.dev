@@ -7,7 +7,7 @@
 
 ### Tmux
 
-- [ ] Compare omarchy's config and own config to check if some nice hotkeys and theming can be carried over 😈
+- [x] Compare omarchy's config and own config to check if some nice hotkeys and theming can be carried over 😈
 
 ### ZSH
 
