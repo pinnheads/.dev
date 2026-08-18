@@ -1,5 +1,11 @@
 export XDG_CONFIG_HOME=$HOME/.config
 
+## alias
+alias ls="ls -la"
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
 PERSONAL=$XDG_CONFIG_HOME/personal
 source $PERSONAL/env
 
