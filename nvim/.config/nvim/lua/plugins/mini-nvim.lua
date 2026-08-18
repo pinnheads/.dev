@@ -6,61 +6,64 @@
 ---@type LazySpec
 
 return {
-  'nvim-mini/mini.nvim',
-  version = false,
-  config = function()
+	"nvim-mini/mini.nvim",
+	version = false,
+	config = function()
+		-- Mini Starter: Fast and Flexible Start Screen
+		require("mini.starter").setup({
+			header = table.concat({
+				[[  /\ \▔\___  ___/\   /(●)_ __ ___  ]],
+				[[ /  \/ / _ \/ _ \ \ / / | '_ ` _ \ ]],
+				[[/ /\  /  __/ (_) \ V /| | | | | | |]],
+				[[\_\ \/ \___|\___/ \_/ |_|_| |_| |_|]],
+				[[───────────────────────────────────]],
+			}, "\n"),
+			footer = function()
+				return os.date(" %A, %B %d, %Y")
+			end,
+		})
 
-    -- Mini Starter: Fast and Flexible Start Screen
-    require('mini.starter').setup {
-      header = table.concat({
-        [[  /\ \▔\___  ___/\   /(●)_ __ ___  ]],
-        [[ /  \/ / _ \/ _ \ \ / / | '_ ` _ \ ]],
-        [[/ /\  /  __/ (_) \ V /| | | | | | |]],
-        [[\_\ \/ \___|\___/ \_/ |_|_| |_| |_|]],
-        [[───────────────────────────────────]],
-      }, '\n'),
-      footer = function() return os.date ' %A, %B %d, %Y' end,
-    }
+		-- Mini Cmdline: Command line tweaks like autocomplete
+		require("mini.cmdline").setup({})
 
-    -- Mini Cmdline: Command line tweaks like autocomplete
-    require('mini.cmdline').setup {}
+		-- Better Around/Inside textobjects
+		--
+		-- Examples:
+		--  - va)  - [V]isually select [A]round [)]paren
+		--  - yiiq - [Y]ank [I]nside [I]+1 [Q]uote
+		--  - ci'  - [C]hange [I]nside [']quote
+		require("mini.ai").setup({
+			-- NOTE: Avoid conflicts with the built-in incremental selection mappings on Neovim>=0.12 (see `:help treesitter-incremental-selection`)
+			mappings = {
+				around_next = "aa",
+				inside_next = "ii",
+			},
+			n_lines = 500,
+		})
 
-    -- Better Around/Inside textobjects
-    --
-    -- Examples:
-    --  - va)  - [V]isually select [A]round [)]paren
-    --  - yiiq - [Y]ank [I]nside [I]+1 [Q]uote
-    --  - ci'  - [C]hange [I]nside [']quote
-    require('mini.ai').setup {
-      -- NOTE: Avoid conflicts with the built-in incremental selection mappings on Neovim>=0.12 (see `:help treesitter-incremental-selection`)
-      mappings = {
-        around_next = 'aa',
-        inside_next = 'ii',
-      },
-      n_lines = 500,
-    }
+		-- Add/delete/replace surroundings (brackets, quotes, etc.)
+		--
+		-- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
+		-- - sd'   - [S]urround [D]elete [']quotes
+		-- - sr)'  - [S]urround [R]eplace [)] [']
+		require("mini.surround").setup()
 
-    -- Add/delete/replace surroundings (brackets, quotes, etc.)
-    --
-    -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-    -- - sd'   - [S]urround [D]elete [']quotes
-    -- - sr)'  - [S]urround [R]eplace [)] [']
-    require('mini.surround').setup()
+		-- Simple and easy statusline.
+		--  You could remove this setup call if you don't like it,
+		--  and try some other statusline plugin
+		local statusline = require("mini.statusline")
+		-- set use_icons to true if you have a Nerd Font
+		statusline.setup({ use_icons = vim.g.have_nerd_font })
 
-    -- Simple and easy statusline.
-    --  You could remove this setup call if you don't like it,
-    --  and try some other statusline plugin
-    local statusline = require 'mini.statusline'
-    -- set use_icons to true if you have a Nerd Font
-    statusline.setup { use_icons = vim.g.have_nerd_font }
+		-- You can configure sections in the statusline by overriding their
+		-- default behavior. For example, here we set the section for
+		-- cursor location to LINE:COLUMN
+		---@diagnostic disable-next-line: duplicate-set-field
+		statusline.section_location = function()
+			return "%2l:%-2v"
+		end
 
-    -- You can configure sections in the statusline by overriding their
-    -- default behavior. For example, here we set the section for
-    -- cursor location to LINE:COLUMN
-    ---@diagnostic disable-next-line: duplicate-set-field
-    statusline.section_location = function() return '%2l:%-2v' end
-
-    -- ... and there is more!
-    --  Check out: https://github.com/nvim-mini/mini.nvim
-  end,
+		-- ... and there is more!
+		--  Check out: https://github.com/nvim-mini/mini.nvim
+	end,
 }
