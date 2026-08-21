@@ -11,4 +11,4 @@
 
 ### ZSH
 
-- [ ] Search for some nicer plugins that can enhance the zsh experience for example zoxide
+- [x] Search for some nicer plugins that can enhance the zsh experience for example zoxide
