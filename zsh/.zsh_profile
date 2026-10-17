@@ -1,10 +1,13 @@
 export XDG_CONFIG_HOME=$HOME/.config
 
-## alias
-alias ls="ls -la"
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
+# Replace ls with eza
+alias ls='eza -al --color=always --group-directories-first --icons=always' # preferred listing
+alias la='eza -a --color=always --group-directories-first --icons=always'  # all files and dirs
+alias ll='eza -l --color=always --group-directories-first --icons=always'  # long format
+alias lt='eza -aT --color=always --group-directories-first --icons=always' # tree listing
+alias l.="eza -a | grep -e '^\.'"                                          # show only dotfiles
+
+alias grep='grep --color=auto'
 
 PERSONAL=$XDG_CONFIG_HOME/personal
 source $PERSONAL/env
